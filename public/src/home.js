@@ -28,20 +28,24 @@ function getMostPopularBooks(books) {
   .slice(0, 5)
 }
 
+
+const countAuthorBorrows = ((author) => {
+  let theAuthor = {
+    name: `${author.name.first} ${author.name.last}`,
+    count: 0
+  };
+  books.forEach((book) => {
+    if (book.authorId === author.id) {
+      theAuthor.count += book.borrows.length;
+    }
+  })
+  result.push(theAuthor);
+})
+
+
 function getMostPopularAuthors(books, authors) {
   let result = [];
-  authors.forEach((author) => {
-    let theAuthor = {
-      name: `${author.name.first} ${author.name.last}`,
-      count: 0
-    };
-    books.forEach((book) => {
-      if (book.authorId === author.id) {
-        theAuthor.count += book.borrows.length;
-      }
-    })
-    result.push(theAuthor);
-  })
+  authors.forEach(countAuthorBorrows)
   return result.sort((a, b) => b.count - a.count). slice(0, 5);
 }
 
